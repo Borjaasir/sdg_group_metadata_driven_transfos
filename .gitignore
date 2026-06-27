@@ -3,4 +3,6 @@
 /.vscode
 /.pytest_cache
 /airflow/logs
+/airflow/plugins
 .env
+/data/output
