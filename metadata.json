@@ -31,7 +31,7 @@
           "name": "parquet_last_data",
           "type": "file",
           "config": {
-            "path": "/output/last",
+            "path": "/output/last.parquet",
             "format": "parquet"
           },
           "waits": ["write_last_file"]
@@ -68,7 +68,7 @@
           "type": "group",
           "input": "parquet_last_data",
           "config": {
-            "group_fields": ["provincia", "municipio", "sexo"],
+            "group_fields": ["provincia", "municipio"],
             "aggregations": ["sum(total) as total_ambos_sexos"]
           }
         }
@@ -79,7 +79,7 @@
           "type": "file",
           "input": "filter_rows",
           "config": {
-            "path": "/last",
+            "path": "last.parquet",
             "format": "parquet",
             "save_mode": "overwrite"
           }
@@ -102,7 +102,7 @@
           "config": {
             "table": "demo",
             "save_mode": "merge",
-            "primary_key": ["provincia", "municipio", "sexo"]
+            "primary_key": ["provincia", "municipio"]
           }
         },
         {

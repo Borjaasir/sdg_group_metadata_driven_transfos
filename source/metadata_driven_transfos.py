@@ -61,18 +61,18 @@ class MetadataDrivenTransfos:
             print(df.head())
             print("\n")
 
-        # print("\n")
-        # print("#" * 64)
-        # print("Loading")
-        # print("\n")
+        print("\n")
+        print("#" * 64)
+        print("Loading")
+        print("\n")
 
-        # print(f"Generating outputs for dataflow '{name}' with {len(outputs)} outputs.\n")
-        # outputs_data_dfs = self.output_handle.handle_data_outputs(outputs, transformed_dfs)
+        print(f"Generating outputs for dataflow '{name}' with {len(outputs)} outputs.\n")
+        outputs_data_dfs = self.output_handle.handle_data_outputs(outputs, transformed_dfs)
 
-        # for output_name, df in outputs_data_dfs.items():
-        #     print(f"For dataflow '{name}', output generated '{output_name}' with {len(df)} rows")
-        #     print(df.head())
-        #     print("\n")
+        for output_name, df in outputs_data_dfs.items():
+            print(f"For dataflow '{name}', output generated '{output_name}' with {len(df)} rows")
+            print(df.head())
+            print("\n")
 
 
     def _validate_dataflows(self, dataflows: Any) -> List[Dict[str, Any]]:
