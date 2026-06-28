@@ -1,0 +1,39 @@
+Generate this makefile with a init command to create a python virtual environment
+
+Create a python class with a function that reads data included in the /data folder using the file data2024.csv as a default file
+
+Read the inputs field in the metadata.json file and update _read_input_data function to ble able to read files with different file types csv or parquet specified in the format field and having the location specified in the path field
+
+In the transformation array of the metadata.json you will find different type transformations to apply in the field type, the logic transformation to apply in the config-filter field and the input dataset in the input field. Create a new class  transfo handle with the needed functions to handle this with pandas transformations
+
+Update apply_transformation to skip a transformation if the source_df is not provided
+
+Update TransfoHandle class to be able to detect if a transfo input is the result of another transformation
+
+Update TransfoHandle class so it detects when the transformations.input is the result of another transformation and it chains the transformations
+
+Update the code so the retuned list of datasets doesn't include the input datasets only the transformed
+
+This OutputHandler class should read the output field list in metadata.json, use transformations datasets coming from the parameter transformed_datasets in handle_data_outputs.
+The information in the output field in metadata.json means the following:
+The input field is the name of the transformation dataset.
+The type field is either file or table, for file persist the file and for table create a table using a connection to a duckdb database.
+The config.table is the name of the table in the database if the type field is table
+The config.format is the format output file, it can be parquet o csv if the type field is file
+The config.save_mode is the data operation strategy to perform, it can be overwrite, append or merge
+The primary_key is the key or composite key for table types
+The partition is to partition the data using that column
+
+Create a pytest suit with one test that detects what rows have changed between the files data2024.csv and data2025.csv
+
+Add a test to perform some generic data quality test for the data2025.csv
+
+Create a new test that checks for a given municipio the sum of hombres and mujeres should be ambos sexos and report those who do not
+
+Update the class OutputHandler to treat metadata config.path as the name of the file if there is not partitioning and config.path as the folder to partition data in folders
+
+Create two different clases which OutputHandler will depend on to have splitted the logic for file output writing and for table (duck db) output writing
+
+Move duckdbb connection to a class atribute
+
+Refactor code so it exists a transformation class catalog as an TransfoHandler attribute that includes all the possible type transformations and its particular transformation logic is located in their different class and code is better splitted, TransfoHandle should get the type of transformation and perform a call to the specific transfo class which will implement a __call__ methos as entrypoint
