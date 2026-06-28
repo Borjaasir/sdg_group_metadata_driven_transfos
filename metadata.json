@@ -115,6 +115,102 @@
           }
         }
       ]
+    },
+    {
+      "name": "dataflow2",
+      "inputs": [
+        {
+          "name": "population_csv_data_2024",
+          "type": "file",
+          "config": {
+            "path": "/input/data2024.csv",
+            "format": "csv"
+          },
+          "options": {
+            "header": "true",
+            "delimiter": ";"
+          }
+        },
+        {
+          "name": "population_csv_data_2025",
+          "type": "file",
+          "config": {
+            "path": "/input/data2025.csv",
+            "format": "csv"
+          },
+          "options": {
+            "header": "true",
+            "delimiter": ";"
+          }
+        }
+      ],
+      "transformations": [
+        {
+          "name": "albacete_mujeres_2024",
+          "type": "filter",
+          "input": "population_csv_data_2024",
+          "config": {
+            "filter": "sexo == 'Mujeres' and provincia == '02 Albacete'"
+          }
+        },
+        {
+          "name": "mean_mujeres_albacete_2024",
+          "type": "group",
+          "input": "albacete_mujeres_2024",
+          "config": {
+            "group_fields": ["provincia"],
+            "aggregations": ["mean(total) as mean_mujeres_albacete_2024"]
+          }
+        },
+                {
+          "name": "albacete_mujeres_2025",
+          "type": "filter",
+          "input": "population_csv_data_2025",
+          "config": {
+            "filter": "sexo == 'Mujeres' and provincia == '02 Albacete'"
+          }
+        },
+        {
+          "name": "mean_mujeres_albacete_2025",
+          "type": "group",
+          "input": "albacete_mujeres_2025",
+          "config": {
+            "group_fields": ["provincia"],
+            "aggregations": ["mean(total) as mean_mujeres_albacete_2025"]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "mean_mujeres_albacete_csv_2024",
+          "type": "file",
+          "input": "mean_mujeres_albacete_2024",
+          "config": {
+            "path": "mean_mujeres_albacete_2024.csv",
+            "format": "csv",
+            "save_mode": "overwrite"
+          }
+        },
+                {
+          "name": "mean_mujeres_albacete_csv_2025",
+          "type": "file",
+          "input": "mean_mujeres_albacete_2025",
+          "config": {
+            "path": "mean_mujeres_albacete_2025.csv",
+            "format": "csv",
+            "save_mode": "overwrite"
+          }
+        },
+        {
+          "name": "mean_mujeres_albacete_table_2024",
+          "type": "table",
+          "input": "mean_mujeres_albacete_2024",
+          "config": {
+            "table": "mean_mujeres_albacete_2024",
+            "save_mode": "overwrite"
+          }
+        }
+      ]
     }
   ]
 }

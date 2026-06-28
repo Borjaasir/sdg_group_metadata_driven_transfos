@@ -3,8 +3,8 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
-from source.file_output_writer import FileOutputWriter
-from source.table_output_writer import TableOutputWriter
+from source.output.writers.file_output_writer import FileOutputWriter
+from source.output.writers.table_output_writer import TableOutputWriter
 
 
 class OutputHandler:

@@ -1,9 +1,9 @@
 import json
 from pathlib import Path
 from typing import Any, Dict, List
-from source.input_handler import InputHandler
-from source.transfo_handler import TransfoHandler
-from source.output_handler import OutputHandler
+from source.input.input_handler import InputHandler
+from source.transfo.transfo_handler import TransfoHandler
+from source.output.output_handler import OutputHandler
 
 
 class MetadataDrivenTransfos:

@@ -3,11 +3,15 @@
 
 help:
 	@echo "Available make targets:"
-	@echo "  install     Install system tools and Poetry via pipx"
-	@echo "  venv_init   Create a Python virtual environment at .venv and open bash with it activated"
-	@echo "  python_deps Install dependencies with Poetry"
-	@echo "  full_init   Run system deps, create venv, and install Python deps"
-	@echo "  help        Show this help message"
+	@echo "  venv_init    Create a Python virtual environment at .venv"
+	@echo "  python_deps  Install dependencies with Poetry"
+	@echo "  full_init    Run system deps, create venv, and install Python deps"
+	@echo "  airflow_run  Start Airflow stack with Docker Compose"
+	@echo "  pytest       Run tests in tests/test_population_data.py"
+	@echo "  duckdb_check Run DuckDB data quality checks"
+	@echo "  files_check  Inspect generated parquet outputs"
+	@echo "  local_run    Run the local metadata-driven pipeline"
+	@echo "  help         Show this help message"
 
 system_deps:
 	sudo apt install python3-pip \
@@ -37,11 +41,11 @@ airflow_run:
 pytest:
 	pytest tests/test_population_data.py -v -s
 
-duckdb_check: ## Gormaz 14 total_ambos_sexos in 2025, 18 in 2024
+duckdb_check: ## Gormaz 18 total_ambos_sexos in 2024 // Gormaz 14 total_ambos_sexos in 2025
 	duckdb data/output/warehouse.duckdb "SELECT COUNT(*) FROM raw_demo;" \
 	&& duckdb data/output/warehouse.duckdb "SELECT * FROM demo WHERE municipio = '42097 Gormaz';" 
 
-files_check: ## Last file and historic files (partitioned) should have 15410 entries for 2024 and 2025
+files_check: ## Last file should have 15410 entries for 2024 and 2025 // Historic files (partitioned) should have 15410 entries for 2024 and 2025 per pipeline executed (append)
 	echo "Last file:" \
 	&& python -c "import pandas as pd; print(pd.read_parquet('data/output/last.parquet').head())" \
 	&& python -c "import pandas as pd; print('Entries:', len(pd.read_parquet('data/output/last.parquet')))" \
